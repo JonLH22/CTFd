@@ -11,7 +11,7 @@ class BaseChallenge(object):
     scripts = {}
 
 
-class CTFdBonusChallenge():
+class CTFdBonusChallenge(BaseChallenge):
     id = "bonus"  # Unique identifier used to register challenges
     name = "bonus"  # Name of a challenge type
     templates = {  # Handlebars templates used for each aspect of challenge editing & viewing
