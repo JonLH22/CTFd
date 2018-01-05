@@ -11,20 +11,19 @@ class BaseChallenge(object):
     scripts = {}
 
 
-class CTFdBonusChallenge(BaseChallenge):
+class CTFdBonusChallenge():
     id = "bonus"  # Unique identifier used to register challenges
     name = "bonus"  # Name of a challenge type
     templates = {  # Handlebars templates used for each aspect of challenge editing & viewing
-        'create': '/plugins/challenges/assets/standard-challenge-create.hbs',
+        'create': '/plugins/challenges/assets/bonus-challenge-create.hbs',
         'update': '/plugins/challenges/assets/standard-challenge-update.hbs',
         'modal': '/plugins/challenges/assets/standard-challenge-modal.hbs',
     }
     scripts = {  # Scripts that are loaded when a template is loaded
-        'create': '/plugins/challenges/assets/standard-challenge-create.js',
+        'create': '/plugins/challenges/assets/bonus-challenge-create.js',
         'update': '/plugins/challenges/assets/standard-challenge-update.js',
         'modal': '/plugins/challenges/assets/standard-challenge-modal.js',
     }
-
     @staticmethod
     def create(request):
         """
@@ -44,10 +43,8 @@ class CTFdBonusChallenge(BaseChallenge):
             type=request.form['chaltype']
         )
 
-        if 'hidden' in request.form:
-            chal.hidden = True
-        else:
-            chal.hidden = False
+
+        chal.hidden = True
 
         max_attempts = request.form.get('max_attempts')
         if max_attempts and max_attempts.isdigit():
@@ -86,10 +83,10 @@ class CTFdBonusChallenge(BaseChallenge):
             'max_attempts': challenge.max_attempts,
             'type': challenge.type,
             'type_data': {
-                'id': CTFdStandardChallenge.id,
-                'name': CTFdStandardChallenge.name,
-                'templates': CTFdStandardChallenge.templates,
-                'scripts': CTFdStandardChallenge.scripts,
+                'id': CTFdBonusChallenge.id,
+                'name': CTFdBonusChallenge.name,
+                'templates': CTFdBonusChallenge.templates,
+                'scripts': CTFdBonusChallenge.scripts,
             }
         }
         return challenge, data
@@ -181,6 +178,7 @@ class CTFdBonusChallenge(BaseChallenge):
         db.session.add(wrong)
         db.session.commit()
         db.session.close()
+
 
 class CTFdStandardChallenge(BaseChallenge):
     id = "standard"  # Unique identifier used to register challenges
@@ -373,7 +371,7 @@ your Challenge Type.
 """
 CHALLENGE_CLASSES = {
     "standard": CTFdStandardChallenge,
-    "bonus" : CTFdBonusChallenge
+    "bonus": CTFdBonusChallenge
 }
 
 
