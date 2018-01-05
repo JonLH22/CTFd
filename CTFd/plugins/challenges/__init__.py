@@ -16,14 +16,13 @@ class CTFdBonusChallenge(BaseChallenge):
     name = "bonus"  # Name of a challenge type
     templates = {  # Handlebars templates used for each aspect of challenge editing & viewing
         'create': '/plugins/challenges/assets/bonus-challenge-create.hbs',
-        'update': '/plugins/challenges/assets/standard-challenge-update.hbs',
-        'modal': '/plugins/challenges/assets/standard-challenge-modal.hbs',
+        'update': '/plugins/challenges/assets/bonus-challenge-update.hbs',
     }
     scripts = {  # Scripts that are loaded when a template is loaded
         'create': '/plugins/challenges/assets/bonus-challenge-create.js',
-        'update': '/plugins/challenges/assets/standard-challenge-update.js',
-        'modal': '/plugins/challenges/assets/standard-challenge-modal.js',
+        'update': '/plugins/challenges/assets/bonus-challenge-update.js',
     }
+
     @staticmethod
     def create(request):
         """
@@ -39,16 +38,11 @@ class CTFdBonusChallenge(BaseChallenge):
             name=request.form['name'],
             description=request.form['desc'],
             value=request.form['value'],
-            category=request.form['category'],
+            category='Bonus Flags',
             type=request.form['chaltype']
         )
 
-
         chal.hidden = True
-
-        max_attempts = request.form.get('max_attempts')
-        if max_attempts and max_attempts.isdigit():
-            chal.max_attempts = int(max_attempts)
 
         db.session.add(chal)
         db.session.commit()
